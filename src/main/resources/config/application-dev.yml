@@ -32,9 +32,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/userimage?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password:
+        url: jdbc:mysql://localhost:3306/userimage?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: ${DEV_DB_USERNAME}
+        password: ${DEV_DB_PASSWORD}
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -60,10 +60,16 @@ spring:
                     logs: target/elasticsearch/log
                     data: target/elasticsearch/data
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        host: smtp.gmail.com
+        port: 587
+        username: ${DEV_GMAIL_USERNAME}
+        password: ${DEV_GMAIL_PASSWORD}
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.gmail.com
     messages:
         cache-seconds: 1
     thymeleaf:
