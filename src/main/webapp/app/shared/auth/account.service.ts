@@ -14,4 +14,15 @@ export class AccountService  {
     save(account: any): Observable<HttpResponse<any>> {
         return this.http.post(SERVER_API_URL + 'api/account', account, {observe: 'response'});
     }
+
+    uploadPiture(picture: any): Observable<HttpResponse<any>> {
+        const data = new FormData();
+        data.append('picture', picture);
+        return this.http.post(SERVER_API_URL + 'api/account/picture', data, {observe: 'response'});
+    }
+
+    getPictureUrl(pictureName: String): string {
+        return SERVER_API_URL + 'api/account/picture/' + pictureName;
+    }
+
 }

@@ -14,6 +14,7 @@ import com.mycompany.myapp.web.rest.errors.EmailAlreadyUsedException;
 import com.mycompany.myapp.web.rest.errors.LoginAlreadyUsedException;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import com.mycompany.myapp.web.rest.util.PaginationUtil;
+
 import io.github.jhipster.web.util.ResponseUtil;
 
 import org.slf4j.Logger;
@@ -25,8 +26,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -113,6 +117,16 @@ public class UserResource {
                 .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
                 .body(newUser);
         }
+    }
+
+    @PostMapping("/picture")
+    @Timed
+    public ResponseEntity<?> createFile(@Valid @RequestBody MultipartFile picture) throws URISyntaxException, IOException {
+//      FileDTO result = fileService.save(picture);
+//      return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
+//          .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+//          .body("Uploded!");
+      return null;
     }
 
     /**

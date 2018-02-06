@@ -8,6 +8,9 @@ import { Principal, AccountService, JhiLanguageHelper } from '../../shared';
     templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit {
+
+    picture: any = null;
+
     error: string;
     success: string;
     settingsAccount: any;
@@ -30,7 +33,7 @@ export class SettingsComponent implements OnInit {
         });
     }
 
-    save() {
+    saveAccountInfo() {
         this.account.save(this.settingsAccount).subscribe(() => {
             this.error = null;
             this.success = 'OK';
@@ -48,6 +51,25 @@ export class SettingsComponent implements OnInit {
         });
     }
 
+    save() {
+        if (this.picture) {
+            this.account.uploadPiture(this.picture).subscribe(
+                () => {
+                    this.error = null;
+                    this.success = 'OK';
+                    this.settingsAccount.imageUrl = this.account.getPictureUrl(this.picture.name);
+                    this.saveAccountInfo();
+                },
+                (err) => {
+                    this.success = null;
+                    this.error = 'ERROR';
+                }
+            );
+        } else {
+            this.saveAccountInfo();
+        }
+    }
+
     copyAccount(account) {
         return {
             activated: account.activated,
@@ -59,4 +81,25 @@ export class SettingsComponent implements OnInit {
             imageUrl: account.imageUrl
         };
     }
+
+    getFullImageUrl(imageUrl: string): string {
+        if (imageUrl && imageUrl.indexOf('data:') === 0) {
+            return imageUrl;
+        } else {
+            return 'content/images/logo-jhipster.png';
+        }
+    }
+
+    onImageChange(event) {
+        this.picture = event.target.files[0];
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+            this.settingsAccount.imageUrl = reader.result;
+        });
+
+        if (this.picture) {
+            reader.readAsDataURL(this.picture);
+        }
+    }
+
 }
